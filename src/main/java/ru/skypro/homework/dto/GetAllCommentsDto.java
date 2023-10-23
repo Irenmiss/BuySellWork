@@ -5,6 +5,6 @@ import java.util.List;
 
 @Data
 public class GetAllCommentsDto {
-    private int count;
+    private Integer count;
     private List<CommentsDto> results;
 }

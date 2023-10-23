@@ -1,7 +1,7 @@
 package ru.skypro.homework.dto;
 import lombok.Data;
 @Data
-public class GetFullAddInfoDto {
+public class GetFullAdInfoDto {
         private Integer pk;
         private String authorFirstName;
         private String authorLastName;
