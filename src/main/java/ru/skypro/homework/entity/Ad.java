@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.util.Collection;
 
 @Data
 @NoArgsConstructor
@@ -23,6 +22,8 @@ public class Ad {
     private String description;
     @Column(name = "ad_price")
     private Integer price;
+    @Column(name = "image_path")
+    private String imagePath;
 
     //ключ на таблицу "users"
     @ManyToOne

@@ -1,5 +1,6 @@
 package ru.skypro.homework.service;
 
+import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.GetFullAdInfoDto;
@@ -17,4 +18,6 @@ public interface AdsService {
     void deleteAdById(Integer id);
     //просмотреть все объявления
     List<AdsDto> getAllAds();
+
+//    boolean updateAdImage(Integer id, MultipartFile image);
 }

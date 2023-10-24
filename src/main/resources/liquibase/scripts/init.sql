@@ -7,7 +7,8 @@ CREATE TABLE "users"
     email      VARCHAR(40) NOT NULL UNIQUE,
     password   VARCHAR(20) NOT NULL,
     phone      VARCHAR(11) NOT NULL,
-    role       VARCHAR(10) DEFAULT 'USER'
+    role       VARCHAR(10) DEFAULT 'USER',
+    image      VARCHAR(255) NOT NULL
 
 );
 
@@ -18,6 +19,7 @@ CREATE TABLE "ads"
     ad_description  VARCHAR(500) NOT NULL,
     ad_price        INTEGER      NOT NULL,
     user_id         INTEGER      NOT NULL,
+    image_path      VARCHAR(255) NOT NULL,
 
     FOREIGN KEY (user_id) REFERENCES users (user_id)
 

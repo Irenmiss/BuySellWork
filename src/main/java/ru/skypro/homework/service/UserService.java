@@ -1,7 +1,6 @@
 package ru.skypro.homework.service;
 
 import org.springframework.security.core.Authentication;
-import ru.skypro.homework.dto.UpdateUserInfoDto;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.entity.User;
 

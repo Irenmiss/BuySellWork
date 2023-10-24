@@ -10,10 +10,11 @@ import ru.skypro.homework.dto.GetFullAdInfoDto;
 import ru.skypro.homework.entity.Ad;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
+import ru.skypro.homework.repository.CommentsRepository;
 import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.AdsService;
-
 import java.util.List;
+
 @Slf4j
 @Service
 @Data
@@ -22,6 +23,7 @@ public class AdsServiceImpl implements AdsService {
     private final AdsRepository adsRepository;
     private final UsersRepository userRepository;
     private final AdsMapper adsMapper;
+    private final CommentsRepository commentsRepository;
 
     @Override
     public GetFullAdInfoDto getAdInfo(Integer id) {
@@ -31,8 +33,7 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, String email) {
-        Integer id = adsRepository.save(adsMapper.toAd(createOrUpdateAdDto)).getPk();
-        Ad savedAd = adsRepository.findById(id).orElseThrow();
+        Ad savedAd = adsRepository.save(adsMapper.toAd(createOrUpdateAdDto));
         return adsMapper.toAdsDto(savedAd);
     }
 
@@ -47,11 +48,21 @@ public class AdsServiceImpl implements AdsService {
 
     @Override
     public void deleteAdById(Integer id) {
+        Ad ad = adsRepository.findById(id).orElseThrow();
         adsRepository.deleteById(id);
+        commentsRepository.deleteAllByAdPk(ad.getPk());
 
     }
     @Override
     public List<AdsDto> getAllAds() {
         return adsMapper.toAdsDto(adsRepository.findAll());
     }
+//    @Override
+//    public boolean updateAdImage(Integer id, MultipartFile image) {
+//        String imageId = imageService.addImage(image);
+//        Ad ad = adsRepository.findById(id).orElseThrow();
+//        ad.setImagePath(imageId);
+//        adsRepository.save(ad);
+//        return true;
+//    }
 }

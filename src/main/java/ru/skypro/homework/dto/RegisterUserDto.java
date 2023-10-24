@@ -2,6 +2,8 @@ package ru.skypro.homework.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import ru.skypro.homework.Enums.Role;
+
 @AllArgsConstructor
 @Data
 public class RegisterUserDto {
