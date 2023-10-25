@@ -5,6 +5,7 @@ CREATE TABLE "users"
     first_name VARCHAR(20) NOT NULL,
     last_name  VARCHAR(20) NOT NULL,
     email      VARCHAR(40) NOT NULL UNIQUE,
+    username   VARCHAR(40) NOT NULL UNIQUE,
     password   VARCHAR(20) NOT NULL,
     phone      VARCHAR(11) NOT NULL,
     role       VARCHAR(10) DEFAULT 'USER',

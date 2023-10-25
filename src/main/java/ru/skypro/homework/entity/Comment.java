@@ -21,7 +21,8 @@ import java.time.Instant;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
+    //на таблицу ads
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "ad_id")
     private Ad ad;
 

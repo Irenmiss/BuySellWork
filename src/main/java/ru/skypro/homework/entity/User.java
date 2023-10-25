@@ -3,14 +3,13 @@ package ru.skypro.homework.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import ru.skypro.homework.Enums.Role;
 
 import javax.persistence.*;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Data
 @Table(name = "users")
 public class User {
     @Id
@@ -23,6 +22,8 @@ public class User {
     private String lastName;
     @Column(name = "email")
     private String email;
+    @Column(name = "username")
+    private String username;
     @Column(name = "password")
     private String password;
     @Column(name = "phone")
@@ -30,5 +31,32 @@ public class User {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 }
 

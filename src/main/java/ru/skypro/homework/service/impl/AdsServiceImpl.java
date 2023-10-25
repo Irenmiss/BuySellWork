@@ -20,10 +20,10 @@ import java.util.List;
 @Data
 @RequiredArgsConstructor
 public class AdsServiceImpl implements AdsService {
-    private final AdsRepository adsRepository;
-    private final UsersRepository userRepository;
-    private final AdsMapper adsMapper;
-    private final CommentsRepository commentsRepository;
+    private AdsRepository adsRepository;
+    private UsersRepository userRepository;
+    private AdsMapper adsMapper;
+    private CommentsRepository commentsRepository;
 
     @Override
     public GetFullAdInfoDto getAdInfo(Integer id) {

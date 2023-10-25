@@ -5,9 +5,10 @@ import org.springframework.stereotype.Repository;
 import ru.skypro.homework.entity.Comment;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface CommentsRepository extends JpaRepository<Comment, Integer> {
-    List<Comment> findAllByAdPk(Integer id);
     void deleteAllByAdPk(Integer id);
+    List<Comment>findByAdId(Integer id);
 }

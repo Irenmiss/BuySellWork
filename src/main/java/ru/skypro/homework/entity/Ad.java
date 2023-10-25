@@ -26,7 +26,7 @@ public class Ad {
     private String imagePath;
 
     //ключ на таблицу "users"
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author;
 
