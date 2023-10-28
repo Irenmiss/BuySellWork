@@ -8,11 +8,15 @@ import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.GetFullAdInfoDto;
 import ru.skypro.homework.entity.Ad;
+import ru.skypro.homework.entity.User;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentsRepository;
 import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.AdsService;
+import ru.skypro.homework.service.ImageService;
+import org.springframework.web.multipart.MultipartFile;
+
 import java.util.List;
 
 @Slf4j
@@ -21,9 +25,10 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AdsServiceImpl implements AdsService {
     private AdsRepository adsRepository;
-    private UsersRepository userRepository;
+    private UsersRepository usersRepository;
     private AdsMapper adsMapper;
     private CommentsRepository commentsRepository;
+    private ImageService imageService;
 
     @Override
     public GetFullAdInfoDto getAdInfo(Integer id) {
@@ -32,9 +37,13 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, String email) {
-        Ad savedAd = adsRepository.save(adsMapper.toAd(createOrUpdateAdDto));
-        return adsMapper.toAdsDto(savedAd);
+    public AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image, String userDetails) {
+        User user = usersRepository.findByUsername(userDetails);
+        Ad entity = adsMapper.toAd(createOrUpdateAdDto);
+        String imageId = imageService.addImage(image);
+        entity.setImagePath(imageId);
+        adsRepository.save(entity);
+        return adsDto;
     }
 
     @Override
@@ -57,12 +66,14 @@ public class AdsServiceImpl implements AdsService {
     public List<AdsDto> getAllAds() {
         return adsMapper.toAdsDto(adsRepository.findAll());
     }
-//    @Override
-//    public boolean updateAdImage(Integer id, MultipartFile image) {
-//        String imageId = imageService.addImage(image);
-//        Ad ad = adsRepository.findById(id).orElseThrow();
-//        ad.setImagePath(imageId);
-//        adsRepository.save(ad);
-//        return true;
-//    }
+
+
+    @Override
+    public boolean updateAdImage(Integer id, MultipartFile image) {
+        String imageId = imageService.addImage(image);
+        Ad ad = adsRepository.findById(id).orElseThrow();
+        ad.setImagePath(imageId);
+        adsRepository.save(ad);
+        return true;
+    }
 }

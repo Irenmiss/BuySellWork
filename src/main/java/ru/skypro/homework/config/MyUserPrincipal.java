@@ -1,20 +1,17 @@
 package ru.skypro.homework.config;
-import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 import ru.skypro.homework.entity.User;
 
 import java.util.Collection;
 import java.util.List;
-@Data
-@Service
 public class MyUserPrincipal implements UserDetails {
     private User user;
-    public MyUserPrincipal(){}
 
+    public MyUserPrincipal(User user) {
+        this.user = user;
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority("ROLE_" + user.getRole().name());
@@ -28,7 +25,7 @@ public class MyUserPrincipal implements UserDetails {
 
     @Override
     public String getUsername() {
-        return user.getEmail();
+        return user.getUsername();
     }
     @Override
     public boolean isAccountNonExpired() {

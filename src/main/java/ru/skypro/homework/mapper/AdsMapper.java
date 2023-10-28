@@ -29,7 +29,7 @@ public interface AdsMapper {
     @Mapping(target = "pk", source = "pk")
     @Mapping(target = "authorFirstName", source = "author.firstName")
     @Mapping(target = "authorLastName", source = "author.lastName")
-    @Mapping(target = "email", source = "author.email")
+    @Mapping(target = "email", source = "author.username")
     @Mapping(target = "phone", source = "author.phone")
     @Mapping(target = "description", ignore = true)
     @Mapping(target = "price", ignore = true)
@@ -38,6 +38,7 @@ public interface AdsMapper {
     //DTO в сущность Ad
     @Mapping(target = "pk", ignore = true)
     @Mapping(target = "author", ignore = true)
+    @Mapping(target = "imagePath", ignore = true)
     Ad toAd(CreateOrUpdateAdDto dto);
 
 }

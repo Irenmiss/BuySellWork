@@ -14,6 +14,7 @@ import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.GetFullAdInfoDto;
 import ru.skypro.homework.service.AdsService;
+import ru.skypro.homework.service.ImageService;
 
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
@@ -21,7 +22,8 @@ import ru.skypro.homework.service.AdsService;
 @RequestMapping("/ads")
 @Tag(name = "Объявления")
 public class AdsController {
-    private final AdsService adsService;
+    private AdsService adsService;
+    private ImageService imageService;
     @Operation(
             summary = "Получение информации об объявлении",
             responses = {
@@ -126,4 +128,32 @@ public class AdsController {
     public ResponseEntity<AdsDto> getAllAds() {
         return ResponseEntity.ok(new AdsDto());
     }
+    @Operation(
+            summary = "Обновить картинку объявления",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not found"
+                    ),
+            })
+    @PatchMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<?> updateAdImage(@PathVariable Integer id,
+                                           @RequestPart MultipartFile image) {
+        return ResponseEntity.ok().body(adsService.updateAdImage(id, image));
+
+    }
+
 }
