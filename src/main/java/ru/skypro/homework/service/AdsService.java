@@ -15,7 +15,7 @@ public interface AdsService {
 
 //    AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image);
 
-    void saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image, String userDetails);
+//    AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image, String userDetails);
 
     //обновить объявление по номеру
     AdsDto updateAd(int id, CreateOrUpdateAdDto createOrUpdateAdsDto);
@@ -24,5 +24,5 @@ public interface AdsService {
     //просмотреть все объявления
     List<AdsDto> getAllAds();
 
-    boolean updateAdImage(Integer id, MultipartFile image);
+//    boolean updateAdImage(Integer id, MultipartFile image);
 }

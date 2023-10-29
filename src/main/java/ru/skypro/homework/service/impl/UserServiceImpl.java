@@ -48,14 +48,14 @@ public class UserServiceImpl implements UserService {
         String currentPrincipalName = authentication.getName();
         return usersRepository.findByUsername(currentPrincipalName);
     }
-    @Override
-    public boolean updateUserImage(String username, MultipartFile image) {
-
-        String imageId = imageService.addImage(image);
-        User user = usersRepository.findByUsername(username);
-        user.setImage(imageId);
-        usersRepository.save(user);
-
-        return true;
-    }
+//    @Override
+//    public boolean updateUserImage(String username, MultipartFile image) {
+//
+//        String imageId = imageService.addImage(image);
+//        User user = usersRepository.findByUsername(username);
+//        user.setImage(imageId);
+//        usersRepository.save(user);
+//
+//        return true;
+//    }
 }

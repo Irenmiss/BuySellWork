@@ -33,18 +33,19 @@ public class AdsServiceImpl implements AdsService {
     @Override
     public GetFullAdInfoDto getAdInfo(Integer id) {
         Ad ad = adsRepository.findById(id).orElseThrow();
-        return adsMapper.toGetFullAddInfoDto(ad);
+        return adsMapper.toGetFullAdInfoDto(ad);
     }
 
-    @Override
-    public AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image, String userDetails) {
-        User user = usersRepository.findByUsername(userDetails);
-        Ad entity = adsMapper.toAd(createOrUpdateAdDto);
-        String imageId = imageService.addImage(image);
-        entity.setImagePath(imageId);
-        adsRepository.save(entity);
-        return adsDto;
-    }
+//    @Override
+//    public AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image, String userDetails) {
+//        User user = usersRepository.findByUsername(userDetails);
+//        Ad entity = adsMapper.toAd(createOrUpdateAdDto);
+//        String imageId = imageService.addImage(image);
+//        entity.setImage(imageId);
+//        entity.setAuthor(user);
+//        adsRepository.save(entity);
+//        return adsMapper.toAdsDto(entity);
+//    }
 
     @Override
     public AdsDto updateAd(int id, CreateOrUpdateAdDto createOrUpdateAdDto) {
@@ -68,12 +69,12 @@ public class AdsServiceImpl implements AdsService {
     }
 
 
-    @Override
-    public boolean updateAdImage(Integer id, MultipartFile image) {
-        String imageId = imageService.addImage(image);
-        Ad ad = adsRepository.findById(id).orElseThrow();
-        ad.setImagePath(imageId);
-        adsRepository.save(ad);
-        return true;
-    }
+//    @Override
+//    public boolean updateAdImage(Integer id, MultipartFile image) {
+//        String imageId = imageService.addImage(image);
+//        Ad ad = adsRepository.findById(id).orElseThrow();
+//        ad.setImage(imageId);
+//        adsRepository.save(ad);
+//        return true;
+//    }
 }

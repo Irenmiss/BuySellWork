@@ -128,32 +128,32 @@ public class AdsController {
     public ResponseEntity<AdsDto> getAllAds() {
         return ResponseEntity.ok(new AdsDto());
     }
-    @Operation(
-            summary = "Обновить картинку объявления",
-            responses = {
-                    @ApiResponse(
-                            responseCode = "200",
-                            description = "OK",
-                            content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-                    ),
-                    @ApiResponse(
-                            responseCode = "401",
-                            description = "Unauthorized"
-                    ),
-                    @ApiResponse(
-                            responseCode = "403",
-                            description = "Forbidden"
-                    ),
-                    @ApiResponse(
-                            responseCode = "404",
-                            description = "Not found"
-                    ),
-            })
-    @PatchMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<?> updateAdImage(@PathVariable Integer id,
-                                           @RequestPart MultipartFile image) {
-        return ResponseEntity.ok().body(adsService.updateAdImage(id, image));
-
-    }
+//    @Operation(
+//            summary = "Обновить картинку объявления",
+//            responses = {
+//                    @ApiResponse(
+//                            responseCode = "200",
+//                            description = "OK",
+//                            content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+//                    ),
+//                    @ApiResponse(
+//                            responseCode = "401",
+//                            description = "Unauthorized"
+//                    ),
+//                    @ApiResponse(
+//                            responseCode = "403",
+//                            description = "Forbidden"
+//                    ),
+//                    @ApiResponse(
+//                            responseCode = "404",
+//                            description = "Not found"
+//                    ),
+//            })
+//    @PatchMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+//    public ResponseEntity<?> updateAdImage(@PathVariable Integer id,
+//                                           @RequestPart MultipartFile image) {
+//        return ResponseEntity.ok().body(adsService.updateAdImage(id, image));
+//
+//    }
 
 }

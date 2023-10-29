@@ -10,9 +10,16 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Table (name = "image")
 public class Image {
     @Id
+    @Column(name = "image_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     @Lob
     private byte[] data;
+
+    public String getId() {
+        return id;
+    }
 }

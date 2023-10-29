@@ -17,7 +17,7 @@ import java.time.Instant;
     @Column(name = "text")
     private String text;
     @Column(name = "creation_time")
-    private Instant createdAt;
+    private Long createdAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;

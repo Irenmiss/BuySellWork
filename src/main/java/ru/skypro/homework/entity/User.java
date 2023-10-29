@@ -1,6 +1,7 @@
 package ru.skypro.homework.entity;
 
 import lombok.Data;
+import lombok.ToString;
 import ru.skypro.homework.Enums.Role;
 
 import javax.persistence.*;
@@ -13,9 +14,9 @@ public class User {
     @Column(name = "user_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column(name = "firstname")
+    @Column(name = "first_name")
     private String firstName;
-    @Column(name = "lastname")
+    @Column(name = "last_name")
     private String lastName;
     @Column(name = "username")
     private String username;
@@ -24,9 +25,11 @@ public class User {
     @Column(name = "phone")
     private String phone;
     @Enumerated(EnumType.STRING)
+    @Column(name = "role")
     private Role role;
-    @Column(name = "image")
-    private String image;
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
 
 
     public Integer getId() {
@@ -54,6 +57,10 @@ public class User {
 
     public String getUsername() {
         return username;
+    }
+
+    public Image getImage() {
+        return image;
     }
 }
 

@@ -3,6 +3,7 @@ package ru.skypro.homework.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -22,8 +23,9 @@ public class Ad {
     private String description;
     @Column(name = "ad_price")
     private Integer price;
-    @Column(name = "image_path")
-    private String imagePath;
+    @OneToOne
+    @JoinColumn(name = "image_id")
+    private Image image;
 
     //ключ на таблицу "users"
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

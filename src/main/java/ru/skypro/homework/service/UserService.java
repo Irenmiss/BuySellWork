@@ -16,5 +16,5 @@ public interface UserService {
 
     User findUser();
 
-    boolean updateUserImage(String username, MultipartFile image);
+//    boolean updateUserImage(String username, MultipartFile image);
 }
