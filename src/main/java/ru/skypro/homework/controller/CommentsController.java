@@ -33,7 +33,7 @@ public class CommentsController {
                     ),
                     @ApiResponse
                             (responseCode = "404",
-                            description = "Not found"
+                                    description = "Not found"
                             )
             })
     @PostMapping("/{id}/comments")
@@ -44,19 +44,19 @@ public class CommentsController {
     @Operation(
             summary = "Получение комментариев объявления",
             responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized"),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not found"
-            )
-    })
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not found"
+                    )
+            })
     @GetMapping("/{id}/comments")
     public ResponseEntity<GetAllCommentsDto> getAdComments(@PathVariable("id") Integer id) {
         return ResponseEntity.ok(new GetAllCommentsDto());
@@ -65,27 +65,27 @@ public class CommentsController {
     @Operation(
             summary = "Обновление комментария",
             responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK"
-            ),
-            @ApiResponse(
-                    responseCode = "401",
-                    description = "Unauthorized"
-            ),
-            @ApiResponse(
-                    responseCode = "403",
-                    description = "Forbidden"
-            ),
-            @ApiResponse(
-                    responseCode = "404",
-                    description = "Not Found"
-            )
-    })
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK"
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not Found"
+                    )
+            })
     @PatchMapping("/{adId}/comments/{commentId}")
     public ResponseEntity<CommentsDto> updateComment(@PathVariable("adId") Integer adId,
-                                                    @PathVariable("commentId") Integer commentId,
-                                                    @RequestBody CreateOrUpdateCommentDto createOrUpdateCommentDto) {
+                                                     @PathVariable("commentId") Integer commentId,
+                                                     @RequestBody CreateOrUpdateCommentDto createOrUpdateCommentDto) {
         return ResponseEntity.ok(new CommentsDto());
     }
 

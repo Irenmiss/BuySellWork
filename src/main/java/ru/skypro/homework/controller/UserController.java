@@ -9,6 +9,7 @@ import ru.skypro.homework.dto.SetNewPasswordDto;
 import ru.skypro.homework.dto.UpdateUserInfoDto;
 import ru.skypro.homework.dto.UserDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+
 @RestController
 @RequestMapping("/users")
 @CrossOrigin(value = "http://localhost:3000")
@@ -32,7 +33,7 @@ public class UserController {
         return ResponseEntity.ok(updateUserDto);
     }
 
-    @Operation (
+    @Operation(
             summary = "Получение информации об авторизованном пользователе",
             responses = {
                     @ApiResponse(
@@ -50,7 +51,7 @@ public class UserController {
         return ResponseEntity.ok(new UserDTO());
     }
 
-    @Operation (
+    @Operation(
             summary = "Обновление пароля",
             responses = {
                     @ApiResponse(

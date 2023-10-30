@@ -1,7 +1,6 @@
 package ru.skypro.homework.entity;
 
 import lombok.Data;
-import lombok.ToString;
 import ru.skypro.homework.Enums.Role;
 
 import javax.persistence.*;
@@ -35,6 +34,7 @@ public class User {
     public Integer getId() {
         return id;
     }
+
     public String getPassword() {
         return password;
     }

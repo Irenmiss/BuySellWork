@@ -1,28 +1,30 @@
 package ru.skypro.homework.service;
 
+
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.GetFullAdInfoDto;
+import ru.skypro.homework.entity.Ad;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface AdsService {
-    //просмотреть объявление по номеру
-    GetFullAdInfoDto getAdInfo (Integer id);
-    //создать объявление
-//    AdsDto saveAd(CreateOrUpdateAdDto ad, String email);
 
-//    AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image);
-
-//    AdsDto saveAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image, String userDetails);
-
-    //обновить объявление по номеру
-    AdsDto updateAd(int id, CreateOrUpdateAdDto createOrUpdateAdsDto);
-    //удалить объявление по номеру
-    void deleteAdById(Integer id);
-    //просмотреть все объявления
     List<AdsDto> getAllAds();
 
-//    boolean updateAdImage(Integer id, MultipartFile image);
+    AdsDto createAd(CreateOrUpdateAdDto createOrUpdateAdDto, MultipartFile image, String userDetails) throws IOException;
+
+    AdsDto updateAd(Integer id, CreateOrUpdateAdDto createOrUpdateAdDto, String userDetails);
+
+    boolean deleteById(Integer id, String userDetails);
+
+    GetFullAdInfoDto getFullAdInfoDto(Integer id);
+
+    void updateImage(Integer id, MultipartFile image) throws IOException;
+
+    List<AdsDto> getAllMyAds(String userDetails);
+
+    Ad findAdById(Integer id);
 }

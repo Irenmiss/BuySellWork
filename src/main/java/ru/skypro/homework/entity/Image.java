@@ -10,7 +10,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table (name = "image")
+@Table(name = "image")
 public class Image {
     @Id
     @Column(name = "image_id")

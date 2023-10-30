@@ -8,9 +8,12 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import ru.skypro.homework.Enums.Role;
 import ru.skypro.homework.dto.LoginUserDto;
 import ru.skypro.homework.dto.RegisterUserDto;
 import ru.skypro.homework.service.AuthService;
+
+import static ru.skypro.homework.Enums.Role.USER;
 
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
@@ -18,21 +21,25 @@ import ru.skypro.homework.service.AuthService;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthService authService;
+    private AuthService authService;
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginUserDto login) {
-        if (authService.login(login.getUsername(), login.getPassword())) {
+    public ResponseEntity<?> login(@RequestBody LoginUserDto credentials) {
+
+        if (authService.login(credentials.getUsername(), credentials.getPassword())) {
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterUserDto register) {
-        if (authService.register(register)) {
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto) {
+
+        Role role = registerUserDto.getRole() == null ? USER : registerUserDto.getRole();
+
+        if (authService.register(registerUserDto, role)) {
+            return ResponseEntity.ok().build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

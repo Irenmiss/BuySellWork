@@ -29,7 +29,7 @@ public interface AdsMapper {
     Ad toAdEntity(CreateOrUpdateAdDto createOrUpdateAdDto);
 
     @Mapping(target = "authorFirstName", source = "author.firstName")
-    @Mapping(target = "authorLastName", source = "author.username")
+    @Mapping(target = "authorLastName", source = "author.lastName")
     @Mapping(target = "email", source = "author.username")
     @Mapping(target = "phone", source = "author.phone")
     @Mapping(target = "image", source = "image", qualifiedByName = "imageToPathString")

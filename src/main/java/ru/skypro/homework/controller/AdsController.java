@@ -16,6 +16,8 @@ import ru.skypro.homework.dto.GetFullAdInfoDto;
 import ru.skypro.homework.service.AdsService;
 import ru.skypro.homework.service.ImageService;
 
+import java.io.IOException;
+
 @CrossOrigin(value = "http://localhost:3000")
 @RestController
 @RequiredArgsConstructor
@@ -24,6 +26,7 @@ import ru.skypro.homework.service.ImageService;
 public class AdsController {
     private AdsService adsService;
     private ImageService imageService;
+
     @Operation(
             summary = "Получение информации об объявлении",
             responses = {
@@ -118,42 +121,44 @@ public class AdsController {
     @Operation(
             summary = "Получение всех объявлений",
             responses = {
-            @ApiResponse(
-                    responseCode = "200",
-                    description = "OK",
-                    content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
-            )
-    })
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE)
+                    )
+            })
     @GetMapping
     public ResponseEntity<AdsDto> getAllAds() {
         return ResponseEntity.ok(new AdsDto());
     }
-//    @Operation(
-//            summary = "Обновить картинку объявления",
-//            responses = {
-//                    @ApiResponse(
-//                            responseCode = "200",
-//                            description = "OK",
-//                            content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
-//                    ),
-//                    @ApiResponse(
-//                            responseCode = "401",
-//                            description = "Unauthorized"
-//                    ),
-//                    @ApiResponse(
-//                            responseCode = "403",
-//                            description = "Forbidden"
-//                    ),
-//                    @ApiResponse(
-//                            responseCode = "404",
-//                            description = "Not found"
-//                    ),
-//            })
-//    @PatchMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-//    public ResponseEntity<?> updateAdImage(@PathVariable Integer id,
-//                                           @RequestPart MultipartFile image) {
-//        return ResponseEntity.ok().body(adsService.updateAdImage(id, image));
-//
-//    }
+
+    @Operation(
+            summary = "Обновить картинку объявления",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(mediaType = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    ),
+                    @ApiResponse(
+                            responseCode = "403",
+                            description = "Forbidden"
+                    ),
+                    @ApiResponse(
+                            responseCode = "404",
+                            description = "Not found"
+                    ),
+            })
+    @PatchMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    public ResponseEntity<String> updateAdImage(@PathVariable Integer id,
+                                                @RequestPart MultipartFile image) throws IOException {
+        adsService.updateImage(id, image);
+        return ResponseEntity.ok().build();
+
+    }
 
 }
