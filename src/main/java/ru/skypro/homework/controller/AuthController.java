@@ -1,5 +1,7 @@
 package ru.skypro.homework.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,17 @@ import static ru.skypro.homework.Enums.Role.USER;
 public class AuthController {
 
     private AuthService authService;
+    @Operation(
+            summary = "Регистрация пользователя",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "OK"),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    )
+            })
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginUserDto credentials) {
@@ -32,7 +45,17 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
         }
     }
-
+    @Operation(
+            summary = "Регистрация пользователя",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "201",
+                            description = "Created"),
+                    @ApiResponse(
+                            responseCode = "400",
+                            description = "Bad Request"
+                    )
+})
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto) {
 

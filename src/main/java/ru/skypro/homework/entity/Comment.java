@@ -14,8 +14,9 @@ import javax.persistence.*;
 public class Comment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "com_id")
     private Integer id;
-    @Column(name = "text")
+    @Column(name = "com_text")
     private String text;
     @Column(name = "creation_time")
     private Long createdAt;

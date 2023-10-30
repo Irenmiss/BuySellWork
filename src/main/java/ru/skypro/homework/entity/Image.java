@@ -15,11 +15,11 @@ public class Image {
     @Id
     @Column(name = "image_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private String id;
+    private Integer id;
     @Lob
     private byte[] data;
 
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 }
