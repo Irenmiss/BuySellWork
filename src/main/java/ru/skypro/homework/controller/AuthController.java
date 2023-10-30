@@ -1,9 +1,12 @@
 package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -22,8 +25,9 @@ import static ru.skypro.homework.Enums.Role.USER;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-
     private AuthService authService;
+
+    @PostMapping("/login")
     @Operation(
             summary = "Регистрация пользователя",
             responses = {
@@ -35,16 +39,15 @@ public class AuthController {
                             description = "Unauthorized"
                     )
             })
-
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginUserDto credentials) {
-
-        if (authService.login(credentials.getUsername(), credentials.getPassword())) {
+    public ResponseEntity<?> login(@RequestBody LoginUserDto login) {
+        if (authService.login(login.getUsername(), login.getPassword())) {
             return ResponseEntity.ok().build();
         } else {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
     }
+
+    @PostMapping("/register")
     @Operation(
             summary = "Регистрация пользователя",
             responses = {
@@ -56,13 +59,9 @@ public class AuthController {
                             description = "Bad Request"
                     )
 })
-    @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody RegisterUserDto registerUserDto) {
-
-        Role role = registerUserDto.getRole() == null ? USER : registerUserDto.getRole();
-
-        if (authService.register(registerUserDto, role)) {
-            return ResponseEntity.ok().build();
+    public ResponseEntity<?> register(@RequestBody RegisterUserDto register) {
+        if (authService.register(register)) {
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } else {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }

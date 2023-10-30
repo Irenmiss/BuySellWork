@@ -1,5 +1,8 @@
 package ru.skypro.homework.service.impl;
 
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -16,7 +19,11 @@ import ru.skypro.homework.service.ValidationService;
 
 import javax.validation.ValidationException;
 
+import static ru.skypro.homework.Enums.Role.USER;
+
+@Slf4j
 @Service
+@RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private PasswordEncoder encoder;
     private UsersRepository usersRepository;
@@ -39,8 +46,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public boolean register(RegisterUserDto registerUserDto, Role role) {
-
+    public boolean register(RegisterUserDto registerUserDto) {
         User user = usersRepository.findByUsername(registerUserDto.getUsername());
         if (user != null) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
@@ -51,6 +57,7 @@ public class AuthServiceImpl implements AuthService {
         }
 
         try {
+            Role role = registerUserDto.getRole() == null ? USER : registerUserDto.getRole();
             registerUserDto.setRole(role);
             registerUserDto.setPassword(encoder.encode(registerUserDto.getPassword()));
             User newUser = userMapper.toUserEntity(registerUserDto);
