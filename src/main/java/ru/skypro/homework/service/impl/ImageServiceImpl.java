@@ -24,7 +24,6 @@ import static java.nio.file.Files.*;
 @AllArgsConstructor
 @Transactional
 public class ImageServiceImpl implements ImageService {
-
     private final String desktopPath = System.getProperty("user.dir") + File.separator + "images";
 
     @Override
@@ -73,6 +72,5 @@ public class ImageServiceImpl implements ImageService {
         }
         return outputFileBytes;
     }
-
 
 }

@@ -2,6 +2,7 @@ package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
@@ -18,7 +19,6 @@ import ru.skypro.homework.dto.GetFullAdInfoDto;
 import ru.skypro.homework.service.AdsService;
 import ru.skypro.homework.service.ImageService;
 
-import java.io.IOException;
 import java.security.Principal;
 
 @Slf4j
@@ -28,6 +28,7 @@ import java.security.Principal;
 @RequestMapping("/ads")
 @Tag(name = "Объявления")
 public class AdsController {
+
     private final AdsService adsService;
     private final ImageService imageService;
 
@@ -108,8 +109,15 @@ public class AdsController {
                     )
             })
     @PatchMapping("/{id}")
-    public ResponseEntity<AdsDto> updateAd(@PathVariable("id") Integer id, @RequestBody CreateOrUpdateAdDto createOrUpdateAdDto) {
-        return ResponseEntity.ok(new AdsDto());
+    public ResponseEntity<AdsDto> updateAd(@PathVariable Integer id, @RequestBody CreateOrUpdateAdDto createOrUpdateAdDto,
+                                           Principal principal) {
+        try {
+            AdsDto adsDto = adsService.updateAd(id, createOrUpdateAdDto, principal.getName());
+            return ResponseEntity.ok(adsDto);
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @Operation(
@@ -133,8 +141,14 @@ public class AdsController {
                     ),
             })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteAdById(@PathVariable("id") Integer id, Principal principal) {
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> removeAd(@PathVariable Integer id, Principal principal) {
+        try {
+            return ResponseEntity.ok().body(adsService.deleteById(id, principal.getName()));
+
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
     }
 
     @Operation(
@@ -180,11 +194,14 @@ public class AdsController {
                     ),
             })
     @PatchMapping(value = "/{id}/image", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> updateAdImage(@PathVariable Integer id,
-                                                @RequestPart MultipartFile image) throws IOException {
-        adsService.updateImage(id, image);
-        return ResponseEntity.ok().build();
-
+    public ResponseEntity<?> updateAdImage(@PathVariable Integer id,
+                                           @RequestPart MultipartFile image) {
+        try {
+            return ResponseEntity.ok().body(adsService.updateImage(id, image));
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
     }
 
     @GetMapping(value = "/image/{id}", produces = {
@@ -209,4 +226,36 @@ public class AdsController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
     }
+
+    @GetMapping("/me")
+    @Operation(
+            summary = "Получить объявления авторизованного пользователя",
+            responses = {
+                    @ApiResponse(
+                            responseCode = "200",
+                            description = "OK",
+                            content = @Content(
+                                    mediaType = MediaType.APPLICATION_JSON_VALUE,
+                                    schema = @Schema(implementation = GetAllAdsDto.class)
+                            )
+                    ),
+                    @ApiResponse(
+                            responseCode = "401",
+                            description = "Unauthorized"
+                    )
+            },
+            tags = "Объявления"
+    )
+    public ResponseEntity<GetAllAdsDto> getAdsMe(Principal principal) {
+
+        try {
+            GetAllAdsDto dto = adsService.getAllMyAds(principal.getName());
+            return ResponseEntity.ok(dto);
+
+        } catch (RuntimeException e) {
+            e.getStackTrace();
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+    }
+
 }
