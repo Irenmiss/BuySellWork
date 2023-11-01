@@ -1,6 +1,4 @@
 package ru.skypro.homework.service;
-
-import ru.skypro.homework.Enums.Role;
 import ru.skypro.homework.dto.RegisterUserDto;
 
 public interface AuthService {

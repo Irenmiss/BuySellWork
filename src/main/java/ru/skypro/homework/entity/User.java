@@ -26,13 +26,8 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
-//    @OneToOne
     @Column(name = "image")
     private String image;
-//    @OneToOne
-//    @JoinColumn(name = "image_id")
-//    private Image image;
-
 
 
 

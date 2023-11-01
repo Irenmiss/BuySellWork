@@ -23,13 +23,9 @@ public class Ad {
     private String description;
     @Column(name = "ad_price")
     private Integer price;
-//    @OneToOne
+
     @Column(name = "image_id")
     private String image;
-
-//    @OneToOne
-//    @JoinColumn(name = "image_id")
-//    private Image image;
 
     //ключ на таблицу "users"
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)

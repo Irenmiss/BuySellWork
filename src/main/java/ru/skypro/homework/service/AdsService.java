@@ -22,7 +22,6 @@ public interface AdsService {
 
     GetAllAdsDto getAllAds();
 
-
     boolean updateImage(Integer id, MultipartFile image);
 
     GetAllAdsDto getAllMyAds(String userDetails);
