@@ -5,6 +5,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.Instant;
 
 @Data
 @NoArgsConstructor
@@ -19,7 +20,7 @@ public class Comment {
     @Column(name = "com_text")
     private String text;
     @Column(name = "creation_time")
-    private Long createdAt;
+    private Instant createdAt;
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User author;

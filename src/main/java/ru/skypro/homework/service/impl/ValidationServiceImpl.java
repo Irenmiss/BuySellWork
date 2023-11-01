@@ -1,10 +1,11 @@
 package ru.skypro.homework.service.impl;
 
+import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDto;
 import ru.skypro.homework.dto.RegisterUserDto;
 import ru.skypro.homework.service.ValidationService;
-
+@Service
 public class ValidationServiceImpl implements ValidationService {
     @Override
     public boolean validate(Object object) {

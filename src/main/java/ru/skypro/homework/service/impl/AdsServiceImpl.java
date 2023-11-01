@@ -1,10 +1,11 @@
 package ru.skypro.homework.service.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 import ru.skypro.homework.Enums.Role;
 import ru.skypro.homework.dto.AdsDto;
@@ -17,7 +18,6 @@ import ru.skypro.homework.exceptions.NotFoundEntityException;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
 import ru.skypro.homework.repository.CommentsRepository;
-import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.AdsService;
 import ru.skypro.homework.service.ImageService;
@@ -25,29 +25,27 @@ import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.service.ValidationService;
 
 import javax.validation.ValidationException;
-import java.io.IOException;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class AdsServiceImpl implements AdsService {
     private AdsRepository adsRepository;
     private AdsMapper adsMapper;
     private ImageService imageService;
     private UsersRepository usersRepository;
-    private ImageRepository imageRepository;
-    private CommentsRepository commentsRepository;
     private ValidationService validationService;
+    CommentsRepository commentsRepository;
 
     @Override
     public AdsDto createAd(CreateOrUpdateAdDto createOrUpdateAdDto,
                            MultipartFile image,
-                           String userDetails) throws IOException {
+                           String userDetails) {
         if (!validationService.validate(createOrUpdateAdDto)) {
             throw new ValidationException(createOrUpdateAdDto.toString());
         }
@@ -56,14 +54,15 @@ public class AdsServiceImpl implements AdsService {
         if (user == null) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        Ad ad = adsMapper.toAdEntity(createOrUpdateAdDto);
-        ad.setImage(imageService.upload(image));
+        Ad ad = adsMapper.toAdEntity(createOrUpdateAdDto, user);
+        ad.setImage(imageService.addImage(image));
         ad.setAuthor(user);
         adsRepository.save(ad);
         return adsMapper.toAdsDto(ad);
     }
 
     @Override
+    @Transactional
     public AdsDto updateAd(Integer id, CreateOrUpdateAdDto createOrUpdateAdDto, String userDetails) {
         if (!validationService.validate(createOrUpdateAdDto)) {
             throw new ValidationException(createOrUpdateAdDto.toString());
@@ -107,20 +106,26 @@ public class AdsServiceImpl implements AdsService {
     }
 
     @Override
-    public List<AdsDto> getAllAds() {
-        return adsMapper.toAdsDto(adsRepository.findAll());
+    public GetAllAdsDto getAllAds() {
+
+        List<AdsDto> adsDto = adsRepository.findAll().stream()
+                .map(adsMapper::toAdsDto)
+                .collect(Collectors.toList());
+        return new GetAllAdsDto(adsDto.size(), adsDto);
     }
 
     @Override
-    public void updateImage(Integer id, MultipartFile image) throws IOException {
-        Ad ad = findAdById(id);
-        imageRepository.delete(ad.getImage());
-        ad.setImage(imageService.upload(image));
+    public boolean updateImage(Integer id, MultipartFile image) {
+        Ad ad = adsRepository.findById(id)
+                .orElseThrow(() -> new NotFoundEntityException("Advertisement not found"));
+        String imageId = imageService.addImage(image);
+        ad.setImage(imageId);
         adsRepository.save(ad);
+        return true;
     }
 
     @Override
-    public List<AdsDto> getAllMyAds(String userDetails) {
+    public GetAllAdsDto getAllMyAds(String userDetails) {
         User author = usersRepository.findByUsername(userDetails);
         if (author != null) {
             List<Ad> adEntity = adsRepository.findByAuthor(author);
@@ -128,16 +133,11 @@ public class AdsServiceImpl implements AdsService {
             for (Ad ad : adEntity) {
                 dto.add(adsMapper.toAdsDto(ad));
             }
-            return (List<AdsDto>) new GetAllAdsDto(dto.size(), dto);
+            return new GetAllAdsDto(dto.size(), dto);
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
 
-    @Override
-    public Ad findAdById(Integer id) {
-        Optional<Ad> ad = adsRepository.findById(id);
-        return ad.get();
-    }
 }
 

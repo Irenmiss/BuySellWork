@@ -1,10 +1,11 @@
 package ru.skypro.homework.service.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.server.ResponseStatusException;
 import ru.skypro.homework.dto.SetNewPasswordDto;
@@ -12,19 +13,17 @@ import ru.skypro.homework.dto.UpdateUserInfoDto;
 import ru.skypro.homework.dto.UserDTO;
 import ru.skypro.homework.entity.User;
 import ru.skypro.homework.exceptions.NotFoundEntityException;
-import ru.skypro.homework.mapper.UserMapper;
+import ru.skypro.homework.mapper.UsersMapper;
 import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
-import java.io.IOException;
-
 @Service
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 public class UserServiceImpl implements UserService {
     private UsersRepository usersRepository;
-    private UserMapper userMapper;
+    private UsersMapper usersMapper;
     private ImageService imageService;
     private PasswordEncoder encoder;
 
@@ -32,36 +31,40 @@ public class UserServiceImpl implements UserService {
     public UserDTO getMyInfo(String username) {
         User user = usersRepository.findByUsername(username);
         if (user != null) {
-            return userMapper.toUserDTO(user);
+            return usersMapper.toUserDTO(user);
         } else {
             throw new NotFoundEntityException("User not found");
         }
     }
 
     @Override
-    public UpdateUserInfoDto updateUser(UpdateUserInfoDto updateUserInfoDto, String username) {
+    @Transactional
+    public UserDTO updateUser(UpdateUserInfoDto updateUserInfoDto, String username) {
 
         User user = usersRepository.findByUsername(username);
+        user.setId(user.getId());
         user.setFirstName(updateUserInfoDto.getFirstName());
         user.setLastName(updateUserInfoDto.getLastName());
         user.setPhone(updateUserInfoDto.getPhone());
         user.setImage(user.getImage());
         usersRepository.save(user);
-        return userMapper.toUpdateUserInfoDto(user);
+        return usersMapper.toUserDTO(user);
     }
 
     @Override
-    public void updateAvatar(String username, MultipartFile image) throws IOException {
+    public boolean updateAvatar(String username, MultipartFile image) {
         User user = usersRepository.findByUsername(username);
         if (user != null) {
-            user.setImage(imageService.upload(image));
+            user.setImage(imageService.addImage(image));
             usersRepository.save(user);
+            return true;
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @Override
+    @Transactional
     public boolean setPassword(SetNewPasswordDto password, String username) {
 
         User user = usersRepository.findByUsername(username);
@@ -77,6 +80,18 @@ public class UserServiceImpl implements UserService {
         } else {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-
     }
+
+    @Override
+    public UserDTO getUser(String username) {
+
+        User user = usersRepository.findByUsername(username);
+        if (user != null) {
+
+            return usersMapper.toUserDTO(user);
+        } else {
+            throw new NotFoundEntityException("00");
+        }
+    }
+
 }

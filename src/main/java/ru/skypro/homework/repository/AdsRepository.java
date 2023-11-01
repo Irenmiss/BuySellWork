@@ -11,5 +11,6 @@ import java.util.Optional;
 @Repository
 public interface AdsRepository extends JpaRepository<Ad, Integer> {
     List<Ad> findByAuthor(User author);
+    List<Ad> findByDescriptionContainingIgnoreCase(String description);
 
 }

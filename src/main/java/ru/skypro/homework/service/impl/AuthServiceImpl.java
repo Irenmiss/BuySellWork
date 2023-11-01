@@ -1,7 +1,7 @@
 package ru.skypro.homework.service.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.skypro.homework.Enums.Role;
 import ru.skypro.homework.dto.RegisterUserDto;
 import ru.skypro.homework.entity.User;
-import ru.skypro.homework.mapper.UserMapper;
+import ru.skypro.homework.mapper.UsersMapperImpl;
 import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.AuthService;
 import ru.skypro.homework.service.ValidationService;
@@ -23,13 +23,14 @@ import static ru.skypro.homework.Enums.Role.USER;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor
+@Data
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
     private PasswordEncoder encoder;
     private UsersRepository usersRepository;
     private ValidationService validationService;
     private UserDetailsService userDetailsService;
-    private UserMapper userMapper;
+    private UsersMapperImpl usersMapperImpl;
 
     @Override
     public boolean login(String userName, String password) {
@@ -60,7 +61,7 @@ public class AuthServiceImpl implements AuthService {
             Role role = registerUserDto.getRole() == null ? USER : registerUserDto.getRole();
             registerUserDto.setRole(role);
             registerUserDto.setPassword(encoder.encode(registerUserDto.getPassword()));
-            User newUser = userMapper.toUserEntity(registerUserDto);
+            User newUser = usersMapperImpl.toUserEntity(registerUserDto);
             usersRepository.save(newUser);
             return true;
         } catch (RuntimeException e) {

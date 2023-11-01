@@ -26,9 +26,14 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
-    @OneToOne
-    @JoinColumn(name = "image_id")
-    private Image image;
+//    @OneToOne
+    @Column(name = "image")
+    private String image;
+//    @OneToOne
+//    @JoinColumn(name = "image_id")
+//    private Image image;
+
+
 
 
     public Integer getId() {
@@ -59,8 +64,12 @@ public class User {
         return username;
     }
 
-    public Image getImage() {
+    public String getImage() {
         return image;
+    }
+
+    public String getLastName() {
+        return lastName;
     }
 }
 

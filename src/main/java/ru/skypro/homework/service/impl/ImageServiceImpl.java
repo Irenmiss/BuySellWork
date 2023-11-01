@@ -1,37 +1,78 @@
 package ru.skypro.homework.service.impl;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 import ru.skypro.homework.entity.Image;
-import ru.skypro.homework.repository.ImageRepository;
 import ru.skypro.homework.service.ImageService;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.nio.file.Paths;
+import java.util.UUID;
+
+import static java.nio.file.Files.*;
 
 @Slf4j
 @Service
 @Data
-@RequiredArgsConstructor
+@AllArgsConstructor
 @Transactional
 public class ImageServiceImpl implements ImageService {
 
-    private ImageRepository imageRepository;
+    private final String desktopPath = System.getProperty("user.dir") + File.separator + "images";
 
     @Override
-    public Image upload(MultipartFile imageFile) throws IOException {
+    public String addImage(MultipartFile imageFile) {
+        String type = imageFile.getContentType();
+        type = type.replace("image/", ".");
         Image image = new Image();
-        image.setData(imageFile.getBytes());
-        return imageRepository.save(image);
+        try {
+            String fileName = UUID.randomUUID() + type;
+            image.setId(fileName);
+            createDirectories(Paths.get(desktopPath));
+            imageFile.transferTo(new File(desktopPath + File.separator + fileName));
+        } catch (IOException e) {
+        }
+        return image.getId();
     }
 
     @Override
-    public byte[] getImage(Integer imageId) {
-        Image image = imageRepository.findById(imageId).orElseThrow();
-        return image.getData();
+    public byte[] loadImage(String fileName) {
+
+        File image;
+        byte[] outputFileBytes = null;
+        try {
+            image = new File(desktopPath, fileName);
+            if (exists(image.toPath())) {
+                outputFileBytes = readAllBytes(image.toPath());
+            } else {
+                try (InputStream in = new URL("").openStream()) {
+                    outputFileBytes = in.readAllBytes();
+                }
+            }
+        } catch (IOException e) {
+        }
+        return outputFileBytes;
     }
+
+    @Override
+    public byte[] loadPictureFile(String fileName) {
+
+        File image;
+        byte[] outputFileBytes = null;
+        try {
+            image = new File(desktopPath, fileName);
+            outputFileBytes = readAllBytes(image.toPath());
+        } catch (IOException e) {
+        }
+        return outputFileBytes;
+    }
+
 
 }

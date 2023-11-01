@@ -6,20 +6,21 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "image")
+//@Table(name = "image")
 public class Image {
-    @Id
-    @Column(name = "image_id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+//    @Id
+////    @Column(name = "image_id")
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private Integer id;
+    private String id;
     @Lob
     private byte[] data;
 
-    public Integer getId() {
+    public String getId() {
         return id;
     }
 }
