@@ -29,11 +29,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 public class CommentsServiceImpl implements CommentsService {
-    private final ValidationService validationService;
-    private final CommentsRepository commentsRepository;
-    private final AdsRepository adsRepository;
-    private final CommentsMapper commentsMapper;
-    private final UsersRepository usersRepository;
+    private ValidationService validationService;
+    private CommentsRepository commentsRepository;
+    private AdsRepository adsRepository;
+    private CommentsMapper commentsMapper;
+    private UsersRepository usersRepository;
 
     @Override
     public CommentsDto createComment(Integer id, CreateOrUpdateCommentDto createOrUpdateCommentDto,
@@ -52,7 +52,6 @@ public class CommentsServiceImpl implements CommentsService {
         commentsRepository.save(comment);
         return commentsMapper.toCommentsDto(comment);
     }
-
     @Override
     public CommentsDto updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDto dto, String userDetails) {
 
@@ -84,7 +83,7 @@ public class CommentsServiceImpl implements CommentsService {
         if (comment.getAuthor().getUsername().equals(userDetails)
                 || authorOrAdmin.getRole() == (Role.ADMIN)) {
 
-            commentsRepository.deleteById(commentId);
+            commentsRepository.delete(comment);
 
             return true;
         } else {

@@ -42,11 +42,9 @@ public class UserServiceImpl implements UserService {
     public UserDTO updateUser(UpdateUserInfoDto updateUserInfoDto, String username) {
 
         User user = usersRepository.findByUsername(username);
-        user.setId(user.getId());
         user.setFirstName(updateUserInfoDto.getFirstName());
         user.setLastName(updateUserInfoDto.getLastName());
         user.setPhone(updateUserInfoDto.getPhone());
-        user.setImage(user.getImage());
         usersRepository.save(user);
         return usersMapper.toUserDTO(user);
     }

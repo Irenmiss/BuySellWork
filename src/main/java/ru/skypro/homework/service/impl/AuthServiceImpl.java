@@ -37,8 +37,7 @@ public class AuthServiceImpl implements AuthService {
 
         User user = usersRepository.findByUsername(userName);
         if (user == null
-                || !user.getUsername().equals(userName)
-                && !user.getPassword().equals(encoder.encode(password))) {
+                || !encoder.matches(password, user.getPassword())) {
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
 

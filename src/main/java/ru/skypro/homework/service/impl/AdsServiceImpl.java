@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -41,7 +42,7 @@ public class AdsServiceImpl implements AdsService {
     private ImageService imageService;
     private UsersRepository usersRepository;
     private ValidationService validationService;
-    CommentsRepository commentsRepository;
+    private CommentsRepository commentsRepository;
 
     @Override
     public AdsDto createAd(CreateOrUpdateAdDto createOrUpdateAdDto,
@@ -82,7 +83,6 @@ public class AdsServiceImpl implements AdsService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
-
     @Override
     public boolean deleteById(Integer id, String userDetails) {
         User authorOrAdmin = usersRepository.findByUsername(userDetails);
@@ -90,7 +90,7 @@ public class AdsServiceImpl implements AdsService {
                 .orElseThrow(() -> new NotFoundEntityException("Advertisement not found"));
         if (ad.getAuthor().getUsername().equals(userDetails)
                 || authorOrAdmin.getRole() == Role.ADMIN) {
-            adsRepository.deleteById(id);
+            adsRepository.delete(ad);
             commentsRepository.deleteAllByAdPk(ad.getPk());
             return true;
         } else {

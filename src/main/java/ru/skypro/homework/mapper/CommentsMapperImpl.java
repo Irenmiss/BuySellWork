@@ -23,7 +23,7 @@ public class CommentsMapperImpl implements CommentsMapper {
     dto.setText(entity.getText());
 
     if (entity.getAuthor().getImage() != null) {
-        dto.setAuthorImage(String.format("/ads/image/%s", entity.getAuthor().getImage()));
+        dto.setAuthorImage(String.format("/users/image/%s", entity.getAuthor().getImage()));
     } else {
         dto.setAuthorImage(null);
     }
