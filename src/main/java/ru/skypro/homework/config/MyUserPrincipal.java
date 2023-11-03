@@ -3,11 +3,14 @@ package ru.skypro.homework.config;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import ru.skypro.homework.entity.User;
+import ru.skypro.homework.model.entity.User;
 
 import java.util.Collection;
 import java.util.List;
 
+/**
+ * Определение пользователя, существуюшего в БД, как авторизованного
+ */
 public class MyUserPrincipal implements UserDetails {
     private User user;
 

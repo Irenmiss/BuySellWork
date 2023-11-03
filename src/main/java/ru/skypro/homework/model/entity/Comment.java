@@ -1,4 +1,4 @@
-package ru.skypro.homework.entity;
+package ru.skypro.homework.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,6 +7,10 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.time.Instant;
 
+/**
+ * Сущность комментария
+ * Соответствует таблице "comments" в БД
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -25,7 +29,7 @@ public class Comment {
     @JoinColumn(name = "user_id")
     private User author;
     //на таблицу ads
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ad_id")
     private Ad ad;
 }

@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * Data Transfer Object для просмотра всех опубликованных объявлений
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

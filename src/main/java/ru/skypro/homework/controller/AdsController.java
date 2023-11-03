@@ -21,6 +21,9 @@ import ru.skypro.homework.service.ImageService;
 
 import java.security.Principal;
 
+/**
+ * Контроллер для работы с объявлениями
+ */
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController

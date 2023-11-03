@@ -1,32 +1,38 @@
 package ru.skypro.homework.mapper;
+
 import org.springframework.stereotype.Service;
 import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.GetFullAdInfoDto;
-import ru.skypro.homework.entity.Ad;
-import ru.skypro.homework.entity.User;
+import ru.skypro.homework.model.entity.Ad;
+import ru.skypro.homework.model.entity.User;
+
+/**
+ * Настройка маппинга для преобразования сущностей объявлений в DTO и обратно
+ */
 
 @Service
 public class AdsMapperImpl implements AdsMapper {
-@Override
+    @Override
     public AdsDto toAdsDto(Ad entity) {
 
-    AdsDto dto = new AdsDto();
+        AdsDto dto = new AdsDto();
 
-    dto.setAuthor(entity.getAuthor().getId());
-    dto.setPk(entity.getPk());
-    dto.setPrice(entity.getPrice());
-    dto.setTitle(entity.getTitle());
+        dto.setAuthor(entity.getAuthor().getId());
+        dto.setPk(entity.getPk());
+        dto.setPrice(entity.getPrice());
+        dto.setTitle(entity.getTitle());
 
-    if (entity.getImage() != null) {
-        dto.setImage(String.format("/ads/image/%s", entity.getImage()));
-    } else {
-        dto.setImage(null);
+        if (entity.getImage() != null) {
+            dto.setImage(String.format("/ads/image/%s", entity.getImage()));
+        } else {
+            dto.setImage(null);
+        }
+
+        return dto;
     }
 
-    return dto;
-}
-@Override
+    @Override
     public Ad toAdEntity(CreateOrUpdateAdDto dto, User author) {
         Ad entity = new Ad();
         entity.setDescription(dto.getDescription());
@@ -36,6 +42,7 @@ public class AdsMapperImpl implements AdsMapper {
 
         return entity;
     }
+
     @Override
     public GetFullAdInfoDto toGetFullAdInfoDto(Ad entity) {
 

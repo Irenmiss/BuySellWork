@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
-import ru.skypro.homework.entity.Image;
+import ru.skypro.homework.model.Image;
 import ru.skypro.homework.service.ImageService;
 
 import java.io.File;
@@ -17,6 +17,10 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 import static java.nio.file.Files.*;
+
+/**
+ * Реализация бизнес-логики по работе с изображениями
+ */
 
 @Slf4j
 @Service
@@ -72,5 +76,4 @@ public class ImageServiceImpl implements ImageService {
         }
         return outputFileBytes;
     }
-
 }

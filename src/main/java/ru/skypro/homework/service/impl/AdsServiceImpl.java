@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
@@ -13,8 +12,8 @@ import ru.skypro.homework.dto.AdsDto;
 import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.GetAllAdsDto;
 import ru.skypro.homework.dto.GetFullAdInfoDto;
-import ru.skypro.homework.entity.Ad;
-import ru.skypro.homework.entity.User;
+import ru.skypro.homework.model.entity.Ad;
+import ru.skypro.homework.model.entity.User;
 import ru.skypro.homework.exceptions.NotFoundEntityException;
 import ru.skypro.homework.mapper.AdsMapper;
 import ru.skypro.homework.repository.AdsRepository;
@@ -31,7 +30,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
+/**
+ * Реализация бизнес-логики по работе с объявлениями
+ */
 @Slf4j
 @Service
 @Data

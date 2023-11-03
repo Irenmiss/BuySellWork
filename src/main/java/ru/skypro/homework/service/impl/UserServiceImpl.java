@@ -11,12 +11,16 @@ import org.springframework.web.server.ResponseStatusException;
 import ru.skypro.homework.dto.SetNewPasswordDto;
 import ru.skypro.homework.dto.UpdateUserInfoDto;
 import ru.skypro.homework.dto.UserDTO;
-import ru.skypro.homework.entity.User;
+import ru.skypro.homework.model.entity.User;
 import ru.skypro.homework.exceptions.NotFoundEntityException;
 import ru.skypro.homework.mapper.UsersMapper;
 import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
+
+/**
+ * Реализация бизнес-логики по работе с пользователями
+ */
 
 @Service
 @Data
@@ -27,15 +31,15 @@ public class UserServiceImpl implements UserService {
     private ImageService imageService;
     private PasswordEncoder encoder;
 
-    @Override
-    public UserDTO getMyInfo(String username) {
-        User user = usersRepository.findByUsername(username);
-        if (user != null) {
-            return usersMapper.toUserDTO(user);
-        } else {
-            throw new NotFoundEntityException("User not found");
-        }
-    }
+//    @Override
+//    public UserDTO getMyInfo(String username) {
+//        User user = usersRepository.findByUsername(username);
+//        if (user != null) {
+//            return usersMapper.toUserDTO(user);
+//        } else {
+//            throw new NotFoundEntityException("User not found");
+//        }
+//    }
 
     @Override
     @Transactional
@@ -91,6 +95,5 @@ public class UserServiceImpl implements UserService {
             throw new NotFoundEntityException("00");
         }
     }
-
 }
 

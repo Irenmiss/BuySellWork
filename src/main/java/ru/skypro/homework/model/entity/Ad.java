@@ -1,12 +1,15 @@
-package ru.skypro.homework.entity;
+package ru.skypro.homework.model.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 
+/**
+ * Сущность объявления
+ * Соответствует таблице "ads" в БД
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -28,7 +31,7 @@ public class Ad {
     private String image;
 
     //ключ на таблицу "users"
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User author;
 

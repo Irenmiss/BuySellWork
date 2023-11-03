@@ -4,6 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import ru.skypro.homework.Enums.Role;
 
+/**
+ * Data Transfer Object для регистрации пользователей
+ */
+
 @AllArgsConstructor
 @Data
 public class RegisterUserDto {
@@ -14,5 +18,4 @@ public class RegisterUserDto {
     private String lastName;
     private String phone;
     private Role role;
-
 }

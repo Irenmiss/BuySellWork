@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import ru.skypro.homework.Enums.Role;
 import ru.skypro.homework.dto.RegisterUserDto;
-import ru.skypro.homework.entity.User;
+import ru.skypro.homework.model.entity.User;
 import ru.skypro.homework.mapper.UsersMapperImpl;
 import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.AuthService;
@@ -21,6 +21,9 @@ import javax.validation.ValidationException;
 
 import static ru.skypro.homework.Enums.Role.USER;
 
+/**
+ * Реализация бизнес-логики по регистрации и аутентификации пользователей
+ */
 @Slf4j
 @Service
 @Data

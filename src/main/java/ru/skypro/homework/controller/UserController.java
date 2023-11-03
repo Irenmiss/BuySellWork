@@ -2,7 +2,6 @@ package ru.skypro.homework.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -13,13 +12,14 @@ import ru.skypro.homework.dto.SetNewPasswordDto;
 import ru.skypro.homework.dto.UpdateUserInfoDto;
 import ru.skypro.homework.dto.UserDTO;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import ru.skypro.homework.entity.User;
 import ru.skypro.homework.service.ImageService;
 import ru.skypro.homework.service.UserService;
 
 import java.security.Principal;
 
-
+/**
+ * Контроллер для работы с пользователями
+ */
 @RestController
 @AllArgsConstructor
 @RequestMapping("/users")

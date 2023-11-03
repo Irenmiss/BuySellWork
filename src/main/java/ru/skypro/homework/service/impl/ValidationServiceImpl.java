@@ -5,6 +5,10 @@ import ru.skypro.homework.dto.CreateOrUpdateAdDto;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDto;
 import ru.skypro.homework.dto.RegisterUserDto;
 import ru.skypro.homework.service.ValidationService;
+
+/**
+ * Реализация бизнес-логики по проверке сущностей
+ */
 @Service
 public class ValidationServiceImpl implements ValidationService {
     @Override

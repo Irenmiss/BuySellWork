@@ -1,10 +1,14 @@
-package ru.skypro.homework.entity;
+package ru.skypro.homework.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+/**
+ * Модель для создания объектов изображений с дальнейшием помещением информации о них в БД
+ */
 
 @Data
 @AllArgsConstructor

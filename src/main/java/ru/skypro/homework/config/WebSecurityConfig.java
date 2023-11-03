@@ -10,6 +10,9 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.http.HttpMethod;
 
 import static org.springframework.security.config.Customizer.withDefaults;
+/**
+ * Настройки авторизации и аутентификации
+ */
 
 @EnableWebSecurity
 @Configuration
@@ -22,7 +25,6 @@ public class WebSecurityConfig {
             "/webjars/**",
             "/login",
             "/register",
-//            "/ads",
             "/ads/image/*",
             "/users/image/*"
     };

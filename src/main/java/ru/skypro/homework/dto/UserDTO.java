@@ -5,6 +5,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import ru.skypro.homework.Enums.Role;
 
+/**
+ * Data Transfer Object для получения полной информации о пользователе
+ */
 @NoArgsConstructor
 @AllArgsConstructor
 @Data

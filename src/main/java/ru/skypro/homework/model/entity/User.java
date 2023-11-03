@@ -1,10 +1,14 @@
-package ru.skypro.homework.entity;
+package ru.skypro.homework.model.entity;
 
 import lombok.Data;
 import ru.skypro.homework.Enums.Role;
 
 import javax.persistence.*;
 
+/**
+ * Сущность пользователей
+ * Соответствует таблице "users" в БД
+ */
 @Entity
 @Data
 @Table(name = "users")
@@ -28,7 +32,6 @@ public class User {
     private Role role;
     @Column(name = "image")
     private String image;
-
 
 
     public Integer getId() {

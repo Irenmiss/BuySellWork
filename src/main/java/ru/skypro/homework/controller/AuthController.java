@@ -14,7 +14,9 @@ import ru.skypro.homework.dto.LoginUserDto;
 import ru.skypro.homework.dto.RegisterUserDto;
 import ru.skypro.homework.service.AuthService;
 
-
+/**
+ * Контроллер для регистрации и авторизации пользователей
+ */
 @Slf4j
 @CrossOrigin(value = "http://localhost:3000")
 @RestController

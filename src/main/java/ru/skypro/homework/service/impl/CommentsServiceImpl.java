@@ -10,9 +10,9 @@ import ru.skypro.homework.Enums.Role;
 import ru.skypro.homework.dto.CommentsDto;
 import ru.skypro.homework.dto.CreateOrUpdateCommentDto;
 import ru.skypro.homework.dto.GetAllCommentsDto;
-import ru.skypro.homework.entity.Ad;
-import ru.skypro.homework.entity.Comment;
-import ru.skypro.homework.entity.User;
+import ru.skypro.homework.model.entity.Ad;
+import ru.skypro.homework.model.entity.Comment;
+import ru.skypro.homework.model.entity.User;
 import ru.skypro.homework.exceptions.NotFoundEntityException;
 import ru.skypro.homework.exceptions.ValidationException;
 import ru.skypro.homework.mapper.CommentsMapper;
@@ -25,6 +25,9 @@ import ru.skypro.homework.service.ValidationService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Реализация бизнес-логики по работе с комментариями
+ */
 @Service
 @Data
 @AllArgsConstructor
@@ -48,10 +51,11 @@ public class CommentsServiceImpl implements CommentsService {
         }
         Ad ad = adsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundEntityException("Advertisement not found"));
-        Comment comment= commentsMapper.toCommentsEntity(createOrUpdateCommentDto, user, ad);
+        Comment comment = commentsMapper.toCommentsEntity(createOrUpdateCommentDto, user, ad);
         commentsRepository.save(comment);
         return commentsMapper.toCommentsDto(comment);
     }
+
     @Override
     public CommentsDto updateComment(Integer adId, Integer commentId, CreateOrUpdateCommentDto dto, String userDetails) {
 
@@ -72,6 +76,7 @@ public class CommentsServiceImpl implements CommentsService {
             throw new ResponseStatusException(HttpStatus.FORBIDDEN);
         }
     }
+
     @Override
     @Transactional
     public boolean deleteComment(Integer adId, Integer commentId, String userDetails) {
@@ -100,7 +105,6 @@ public class CommentsServiceImpl implements CommentsService {
         }
         return new GetAllCommentsDto(dto.size(), dto);
     }
-
 }
 
 
