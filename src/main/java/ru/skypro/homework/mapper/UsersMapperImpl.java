@@ -33,6 +33,7 @@ public class UsersMapperImpl implements UsersMapper {
         dto.setLastName(entity.getLastName());
         dto.setEmail(entity.getUsername());
         dto.setPhone(entity.getPhone());
+        dto.setRole(entity.getRole());
 
         if (entity.getImage() != null) {
             dto.setImage(String.format("/users/image/%s", entity.getImage()));

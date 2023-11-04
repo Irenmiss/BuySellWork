@@ -25,13 +25,4 @@ public interface ImageService {
      */
 
     byte[] loadImage(String fileName);
-
-    /**
-     * Просмотр загруженного изображения
-     * {@link ru.skypro.homework.service.impl.ImageServiceImpl#loadPictureFile(String)}  )}
-     *
-     * @param fileName название изображения
-     * @return загруженное изображение в виде byte[]
-     */
-    byte[] loadPictureFile(String fileName);
 }

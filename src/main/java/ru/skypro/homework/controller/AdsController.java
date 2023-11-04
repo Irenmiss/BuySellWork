@@ -222,7 +222,7 @@ public class AdsController {
     public ResponseEntity<byte[]> getImage(@PathVariable("id") String id) {
 
         try {
-            return ResponseEntity.ok(imageService.loadPictureFile(id));
+            return ResponseEntity.ok(imageService.loadImage(id));
 
         } catch (RuntimeException e) {
             e.getStackTrace();

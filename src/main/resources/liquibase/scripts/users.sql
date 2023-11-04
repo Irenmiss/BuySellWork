@@ -7,7 +7,7 @@ CREATE TABLE users
     username   VARCHAR(32) NOT NULL UNIQUE,
     password   VARCHAR(255) NOT NULL,
     phone      VARCHAR(15) NOT NULL,
-    role       VARCHAR(10) DEFAULT 'USER',
+    role       VARCHAR(10),
     image      VARCHAR (255)
 
 );

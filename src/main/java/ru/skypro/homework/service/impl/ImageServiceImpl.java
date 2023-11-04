@@ -63,17 +63,4 @@ public class ImageServiceImpl implements ImageService {
         }
         return outputFileBytes;
     }
-
-    @Override
-    public byte[] loadPictureFile(String fileName) {
-
-        File image;
-        byte[] outputFileBytes = null;
-        try {
-            image = new File(desktopPath, fileName);
-            outputFileBytes = readAllBytes(image.toPath());
-        } catch (IOException e) {
-        }
-        return outputFileBytes;
-    }
 }
