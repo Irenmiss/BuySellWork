@@ -1,47 +1,74 @@
 package ru.skypro.homework.service.impl;
 
-import org.springframework.security.core.userdetails.User;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.UserDetailsManager;
 import org.springframework.stereotype.Service;
-import ru.skypro.homework.dto.Register;
+import org.springframework.web.server.ResponseStatusException;
+import ru.skypro.homework.Enums.Role;
+import ru.skypro.homework.dto.RegisterUserDto;
+import ru.skypro.homework.model.entity.User;
+import ru.skypro.homework.mapper.UsersMapperImpl;
+import ru.skypro.homework.repository.UsersRepository;
 import ru.skypro.homework.service.AuthService;
+import ru.skypro.homework.service.ValidationService;
 
+import javax.validation.ValidationException;
+
+import static ru.skypro.homework.Enums.Role.USER;
+
+/**
+ * Реализация бизнес-логики по регистрации и аутентификации пользователей
+ */
+@Slf4j
 @Service
+@Data
+@AllArgsConstructor
 public class AuthServiceImpl implements AuthService {
-
-    private final UserDetailsManager manager;
-    private final PasswordEncoder encoder;
-
-    public AuthServiceImpl(UserDetailsManager manager,
-                           PasswordEncoder passwordEncoder) {
-        this.manager = manager;
-        this.encoder = passwordEncoder;
-    }
+    private PasswordEncoder encoder;
+    private UsersRepository usersRepository;
+    private ValidationService validationService;
+    private UserDetailsService userDetailsService;
+    private UsersMapperImpl usersMapperImpl;
 
     @Override
     public boolean login(String userName, String password) {
-        if (!manager.userExists(userName)) {
-            return false;
+
+        User user = usersRepository.findByUsername(userName);
+        if (user == null
+                || !encoder.matches(password, user.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED);
         }
-        UserDetails userDetails = manager.loadUserByUsername(userName);
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(userName);
         return encoder.matches(password, userDetails.getPassword());
     }
 
     @Override
-    public boolean register(Register register) {
-        if (manager.userExists(register.getUsername())) {
+    public boolean register(RegisterUserDto registerUserDto) {
+        User user = usersRepository.findByUsername(registerUserDto.getUsername());
+        if (user != null) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        if (!validationService.validate(registerUserDto)) {
+            throw new ValidationException(registerUserDto.toString());
+        }
+
+        try {
+            Role role = registerUserDto.getRole() == null ? USER : registerUserDto.getRole();
+            registerUserDto.setRole(role);
+            registerUserDto.setPassword(encoder.encode(registerUserDto.getPassword()));
+            User newUser = usersMapperImpl.toUserEntity(registerUserDto);
+            usersRepository.save(newUser);
+            return true;
+        } catch (RuntimeException e) {
+            e.getStackTrace();
             return false;
         }
-        manager.createUser(
-                User.builder()
-                        .passwordEncoder(this.encoder::encode)
-                        .password(register.getPassword())
-                        .username(register.getUsername())
-                        .roles(register.getRole().name())
-                        .build());
-        return true;
     }
-
 }

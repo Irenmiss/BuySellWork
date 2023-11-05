@@ -10,6 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Настройки разрешений для обмена учетными данными
+ */
+
 @Component
 public class BasicAuthCorsFilter extends OncePerRequestFilter {
 
