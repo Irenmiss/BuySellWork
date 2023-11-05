@@ -1,7 +1,5 @@
 # Проект по разработке бэкенд-части для онлайн-площадки по перепродаже вещей #
 
-![](https://github.com/AlekseyPetkun/ADS-online.app/blob/master/demo.gif)
-
 **Разработчик:**
 
 Ирина Кустова
